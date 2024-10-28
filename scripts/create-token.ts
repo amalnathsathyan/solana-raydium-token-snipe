@@ -50,7 +50,7 @@ const tokenMetadata: TokenMetadata = {
     mint: mint,
     name: 'THE TOKEN IS RUSTY',
     symbol: 'RUSTY',
-    uri: "https://qn-shared.quicknode-ipfs.com/ipfs/QmRksyMZ6PEyZYt3sQ8VQ4S77TnZsivxYfPLJR5cMyEtYF",
+    uri: "https://dweb.link/ipfs/Qma5VS5zQ6fGusmkDME5J68MvS9MvFMV44zkxWatUmqiQ2",
     additionalMetadata: [['','']],
 };
 
@@ -127,4 +127,5 @@ async function createTokenAndMint(): Promise<[string, string]> {
     console.log(`   ${generateExplorerUrl(mintSig)}`);
     console.log(`New Token:`);
     console.log(`   ${generateExplorerUrl(mint.toBase58(), true)}`);
+    console.log(await getTokenMetadata(connection, mint));
 })();
