@@ -31,7 +31,8 @@ import {
     TokenMetadata,
 } from '@solana/spl-token-metadata';
 
-import secret from './2vBAnVajtqmP4RBm8Vw5gzYEy3XCT9Mf1NBeQ2TPkiVF.json'
+//save your keypair file in home folder
+import secret from '../2vBAnVajtqmP4RBm8Vw5gzYEy3XCT9Mf1NBeQ2TPkiVF.json'
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -47,14 +48,14 @@ const mint = mintKeypair.publicKey;
 const tokenMetadata: TokenMetadata = {
     updateAuthority: authority.publicKey,
     mint: mint,
-    name: 'QN Pixel',
-    symbol: 'QNPIX',
-    uri: "https://qn-shared.quicknode-ipfs.com/ipfs/QmQFh6WuQaWAMLsw9paLZYvTsdL5xJESzcoSxzb6ZU3Gjx",
+    name: 'THE TOKEN IS RUSTY',
+    symbol: 'RUSTY',
+    uri: "https://qn-shared.quicknode-ipfs.com/ipfs/QmRksyMZ6PEyZYt3sQ8VQ4S77TnZsivxYfPLJR5cMyEtYF",
     additionalMetadata: [['','']],
 };
 
 const decimals = 8;
-const mintAmount = 1;
+const mintAmount = 21000000;
 
 function generateExplorerUrl(identifier: string, isAddress: boolean = false): string {
     if (!identifier) return '';
