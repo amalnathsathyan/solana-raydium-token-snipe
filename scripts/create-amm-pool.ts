@@ -12,11 +12,14 @@ import {
   
   export const createAmmPool = async () => {
     const raydium = await initSdk()
-    const marketId = new PublicKey(`<you market id here>`)
+    //add market ID here
+    const marketId = new PublicKey(`Akrpa8DLZGWkpTsx8xc1Mr3WVMZFQv9JcDev1ufDPGCX`)
   
     // if you are confirmed your market info, don't have to get market info from rpc below
     const marketBufferInfo = await raydium.connection.getAccountInfo(new PublicKey(marketId))
     const { baseMint, quoteMint } = MARKET_STATE_LAYOUT_V3.decode(marketBufferInfo!.data)
+    // const baseMint = new PublicKey('Hv24CC8gMA8ui7RSjv1DMVwiXtbb8wCDrJyqgQwVmckW');
+    // const quoteMint = new PublicKey('So11111111111111111111111111111111111111112')
   
     // check mint info here: https://api-v3.raydium.io/mint/list
     // or get mint info by api: await raydium.token.getTokenInfo('mint address')
@@ -34,12 +37,12 @@ import {
     }
   
     const { execute, extInfo } = await raydium.liquidity.createPoolV4({
-      programId: AMM_V4,
-      // programId: DEVNET_PROGRAM_ID.AmmV4, // devnet
+      // programId: AMM_V4,
+      programId: DEVNET_PROGRAM_ID.AmmV4, // devnet
       marketInfo: {
         marketId,
-        programId: OPEN_BOOK_PROGRAM,
-        // programId: DEVNET_PROGRAM_ID.OPENBOOK_MARKET, // devent
+        // programId: OPEN_BOOK_PROGRAM,
+        programId: DEVNET_PROGRAM_ID.OPENBOOK_MARKET, // devent
       },
       baseMintInfo: {
         mint: baseMint,
@@ -62,8 +65,8 @@ import {
       },
       associatedOnly: false,
       txVersion,
-      feeDestinationId: FEE_DESTINATION_ID,
-      // feeDestinationId: DEVNET_PROGRAM_ID.FEE_DESTINATION_ID, // devnet
+      // feeDestinationId: FEE_DESTINATION_ID,
+      feeDestinationId: DEVNET_PROGRAM_ID.FEE_DESTINATION_ID, // devnet
       // optional: set up priority fee here
       // computeBudgetConfig: {
       //   units: 600000,
@@ -88,4 +91,4 @@ import {
   }
   
   /** uncomment code below to execute */
-  // createAmmPool()
+  createAmmPool()

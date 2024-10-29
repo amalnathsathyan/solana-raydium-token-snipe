@@ -8,12 +8,15 @@ export const createMarket = async () => {
   // check mint info here: https://api-v3.raydium.io/mint/list
   // or get mint info by api: await raydium.token.getTokenInfo('mint address')
 
-//   const tokenMint = new PublicKey('7vqCfkT3Tqir9dq7BacqMDYjK8E6hzzWUyDahhapanEX');
+  const token1Mint = new PublicKey('Hv24CC8gMA8ui7RSjv1DMVwiXtbb8wCDrJyqgQwVmckW');
+//   const token2Mint = new PublicKey('6vyRxYveR595MdvpBKuESZZbVJxhPXTmxARtrbc9YysA');
+
+  
 
   const { execute, extInfo, transactions } = await raydium.marketV2.create({
     baseInfo: {
-      mint: USDCMint,
-      decimals: 8,
+      mint: token1Mint,
+      decimals: 6,
     },
     quoteInfo: {
       mint: WSOLMint,
