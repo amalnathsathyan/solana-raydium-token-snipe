@@ -54,8 +54,8 @@ const tokenMetadata: TokenMetadata = {
     additionalMetadata: [['','']],
 };
 
-const decimals = 8;
-const mintAmount = 21000000;
+const decimals = 6;
+const mintAmount = 21000000 * LAMPORTS_PER_SOL;
 
 function generateExplorerUrl(identifier: string, isAddress: boolean = false): string {
     if (!identifier) return '';
