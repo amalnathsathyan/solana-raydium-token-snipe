@@ -49,13 +49,13 @@ const tokenMetadata: TokenMetadata = {
     updateAuthority: authority.publicKey,
     mint: mint,
     name: 'THE TOKEN IS RUSTY',
-    symbol: 'RUSTY',
+    symbol: 'RUSTY2',
     uri: "https://dweb.link/ipfs/Qma5VS5zQ6fGusmkDME5J68MvS9MvFMV44zkxWatUmqiQ2",
     additionalMetadata: [['','']],
 };
 
 const decimals = 6;
-const mintAmount = 21000000 * LAMPORTS_PER_SOL;
+const mintAmount = 21000000_000_000 // Supply 21M 
 
 function generateExplorerUrl(identifier: string, isAddress: boolean = false): string {
     if (!identifier) return '';

@@ -6,14 +6,14 @@ import {
   } from '@raydium-io/raydium-sdk-v2'
   import BN from 'bn.js'
   import { initSdk, txVersion } from './config'
-  import { PublicKey } from '@solana/web3.js'
+  import { LAMPORTS_PER_SOL } from '@solana/web3.js'
   
   export const createPool = async () => {
     const raydium = await initSdk({ loadToken: true })
   
     // check token list here: https://api-v3.raydium.io/mint/list
     // RAY
-    const mintA = await raydium.token.getTokenInfo('Hv24CC8gMA8ui7RSjv1DMVwiXtbb8wCDrJyqgQwVmckW')
+    const mintA = await raydium.token.getTokenInfo('6AET2G9Qqi9W8wfT6SytavhmdXPaWfBFbNVTGk8U9vNB')
     // USDC
     const mintB = await raydium.token.getTokenInfo('So11111111111111111111111111111111111111112')
   
@@ -42,8 +42,8 @@ import {
       poolFeeAccount: DEVNET_PROGRAM_ID.CREATE_CPMM_POOL_FEE_ACC,
       mintA,
       mintB,
-      mintAAmount: new BN(100),
-      mintBAmount: new BN(100),
+      mintAAmount: new BN(21000000_000_000),
+      mintBAmount: new BN(1000_000),
       startTime: new BN(0),
       feeConfig: feeConfigs[0],
       associatedOnly: false,
