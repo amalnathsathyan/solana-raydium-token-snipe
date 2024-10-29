@@ -50,7 +50,7 @@ const tokenMetadata: TokenMetadata = {
     mint: mint,
     name: 'THE TOKEN IS RUSTY',
     symbol: 'RUSTY2',
-    uri: "https://dweb.link/ipfs/Qma5VS5zQ6fGusmkDME5J68MvS9MvFMV44zkxWatUmqiQ2",
+    uri: "https://dweb.link/ipfs/Qma5VS5zQ6fGusmkDME5J68MvS9MvFMV44zkxWatUmqiQ2", // URI to a richer metadata
     additionalMetadata: [['','']],
 };
 
