@@ -1,33 +1,50 @@
-import { Keypair, Connection, LAMPORTS_PER_SOL } from '@solana/web3.js';
-import * as fs from 'fs';
-import path from 'path';
-import bs58 from 'bs58';
-import dotenv from 'dotenv';
+import { Keypair, Connection } from "@solana/web3.js";
+import * as fs from "fs";
+import path from "path";
+import bs58 from "bs58";
+import dotenv from "dotenv";
 dotenv.config();
 
 const endpoint = process.env.SOLANA_DEVNET_URL as string;
-const solanaConnection = new Connection(endpoint, 'confirmed');
+const solanaConnection = new Connection(endpoint, "confirmed");
 
-const createWallets = (num: number) => {
-    for (let i = 0; i < num; i++) {
-        const keypair = Keypair.generate();
-        console.log(`Keypair Generated`);
-        const privateKey = bs58.encode(keypair.secretKey);
-        const publicKey = keypair.publicKey.toString();
-        console.log(`Wallet PrivateKey:`, privateKey);
+/**
+ * Creates wallets and saves them in the specified folder.
+ * @param {number} num - Number of wallets to create.
+ * @param {"primary" | "secondary"} type - Type of wallets (primary or secondary).
+ */
+export function createWallets(num: number, type: "primary" | "secondary") {
+  // Determine the folder based on wallet type
+  const folderName = type === "primary" ? "PrimaryWallets" : "SecondaryWallets";
+  const folderPath = path.join(__dirname, folderName);
 
-        const filePath = path.join(__dirname, 'PrimaryWallets', `${publicKey}.json`);
-        const secret_array = keypair.secretKey
-            .toString() //convert secret key to string
-            .split(',') //delimit string by commas and convert to an array of strings
-            .map(value => Number(value)); //convert string values to numbers inside the array
-        const secret = JSON.stringify(secret_array); //Covert to JSON string
+  // Create folder if it doesn't exist
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+    console.log(`Created folder: ${folderName}`);
+  }
 
-        fs.writeFile(filePath, secret, 'utf8', function (err) {
-            if (err) throw err;
-            console.log(`Wrote secret key to ${publicKey}.json`);
-        });
-    }
+  for (let i = 0; i < num; i++) {
+    const keypair = Keypair.generate();
+    const privateKey = bs58.encode(keypair.secretKey);
+    const publicKey = keypair.publicKey.toString();
+    console.log(`Generated wallet #${i + 1}: ${publicKey}`);
+
+    // Name the wallet file as wallet_<index>.json
+    const filePath = path.join(folderPath, `wallet_${i + 1}.json`);
+    const secretArray = Array.from(keypair.secretKey);
+    const secret = JSON.stringify(secretArray);
+
+    // Write the wallet file
+    fs.writeFileSync(filePath, secret, "utf8");
+    console.log(`Saved wallet to ${filePath}`);
+  }
+
+  console.log(`${num} wallets created and saved in ${folderName} folder.`);
 }
-//enter how many wallets you require
-createWallets(20);
+
+// Uncomment the following line to create primary wallets (for testing purposes)
+// createWallets(20, "primary");
+
+// Uncomment the following line to create secondary wallets (for testing purposes)
+// createWallets(10, "secondary");
