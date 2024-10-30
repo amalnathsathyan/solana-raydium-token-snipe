@@ -1,0 +1,3 @@
+[submodule "jito-ts"]
+	path = jito-ts
+	url = https://github.com/jito-labs/jito-ts.git
