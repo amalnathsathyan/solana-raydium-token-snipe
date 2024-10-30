@@ -1,7 +1,9 @@
 import {
   Connection,
   Keypair,
+  LAMPORTS_PER_SOL,
   PublicKey,
+  SystemProgram,
   TransactionInstruction,
   TransactionMessage,
   VersionedTransaction,
@@ -43,9 +45,11 @@ export const sendBundles = async (
 
   const bundles = [b];
 
+  const amountSol = 0.001*LAMPORTS_PER_SOL;
+
   let maybeBundle = b.addTransactions(
-    buildMemoTransaction(keypair, 'jito test 1', blockHash.blockhash),
-    buildMemoTransaction(keypair, 'jito test 2', blockHash.blockhash)
+    buildMemoTransaction(keypair, new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"), amountSol, recentBlockhash),
+    // buildMemoTransaction(keypair, 'jito test 2', blockHash.blockhash)
   );
   if (isError(maybeBundle)) {
     throw maybeBundle;
@@ -85,22 +89,19 @@ export const onBundleResult = (c: SearcherClient) => {
 
 const buildMemoTransaction = (
   keypair: Keypair,
-  message: string,
+  recipient: PublicKey,
+  amountSol: number,
   recentBlockhash: string
 ): VersionedTransaction => {
-  const ix = new TransactionInstruction({
-    keys: [
-      {
-        pubkey: keypair.publicKey,
-        isSigner: true,
-        isWritable: true,
-      },
-    ],
-    programId: new PublicKey(MEMO_PROGRAM_ID),
-    data: Buffer.from(message),
-  });
+  const lamports = amountSol * LAMPORTS_PER_SOL;
 
-  const instructions = [ix];
+    const transferInstruction = SystemProgram.transfer({
+        fromPubkey: keypair.publicKey,
+        toPubkey: new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"),
+        lamports,
+    });
+
+  const instructions = [transferInstruction];
 
   const messageV0 = new TransactionMessage({
     payerKey: keypair.publicKey,

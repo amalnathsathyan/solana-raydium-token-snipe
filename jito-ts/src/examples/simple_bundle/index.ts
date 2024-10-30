@@ -1,4 +1,8 @@
-require('dotenv').config();
+import secret from '../../../2vBAnVajtqmP4RBm8Vw5gzYEy3XCT9Mf1NBeQ2TPkiVF.json'
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 
 import * as Fs from 'fs';
 
@@ -16,7 +20,8 @@ const main = async () => {
   const decodedKey = new Uint8Array(
     JSON.parse(Fs.readFileSync(authKeypairPath).toString()) as number[]
   );
-  const keypair = Keypair.fromSecretKey(decodedKey);
+  // const keypair = Keypair.fromSecretKey(decodedKey);
+  const keypair = Keypair.fromSecretKey(new Uint8Array(secret));
 
   const _accounts = (process.env.ACCOUNTS_OF_INTEREST || '').split(',');
   console.log('ACCOUNTS_OF_INTEREST:', _accounts);
