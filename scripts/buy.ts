@@ -75,4 +75,4 @@ export const buy = async (amountSol:number) => {
 }
 
 /** uncomment code below to execute */
-// buy(0.0002)
+buy(0.0002)
