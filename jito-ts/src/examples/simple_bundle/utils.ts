@@ -10,9 +10,9 @@ import {
 } from '@solana/web3.js';
 import bs58 from 'bs58';
 
-import {SearcherClient} from '../../sdk/block-engine/searcher';
-import {Bundle} from '../../sdk/block-engine/types';
-import {isError} from '../../sdk/block-engine/utils';
+import { SearcherClient } from '../../sdk/block-engine/searcher';
+import { Bundle } from '../../sdk/block-engine/types';
+import { isError } from '../../sdk/block-engine/utils';
 
 const MEMO_PROGRAM_ID = 'Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo';
 
@@ -45,11 +45,28 @@ export const sendBundles = async (
 
   const bundles = [b];
 
-  const amountSol = 0.001*LAMPORTS_PER_SOL;
+  const amountSol = 0.001 * LAMPORTS_PER_SOL;
+
+  const transferInstruction = SystemProgram.transfer({
+    fromPubkey: keypair.publicKey,
+    toPubkey: new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"),
+    lamports:amountSol,
+  });
+
+  const instructions = [transferInstruction];
+
+  const messageV0 = new TransactionMessage({
+    payerKey: keypair.publicKey,
+    recentBlockhash: blockHash.blockhash,
+    instructions,
+  }).compileToV0Message();
+
+  const tx = new VersionedTransaction(messageV0);
 
   let maybeBundle = b.addTransactions(
-    buildMemoTransaction(keypair, new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"), amountSol, recentBlockhash),
+    // buildMemoTransaction(keypair, new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"), amountSol, blockHash.blockhash),
     // buildMemoTransaction(keypair, 'jito test 2', blockHash.blockhash)
+    tx
   );
   if (isError(maybeBundle)) {
     throw maybeBundle;
@@ -95,11 +112,11 @@ const buildMemoTransaction = (
 ): VersionedTransaction => {
   const lamports = amountSol * LAMPORTS_PER_SOL;
 
-    const transferInstruction = SystemProgram.transfer({
-        fromPubkey: keypair.publicKey,
-        toPubkey: new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"),
-        lamports,
-    });
+  const transferInstruction = SystemProgram.transfer({
+    fromPubkey: keypair.publicKey,
+    toPubkey: new PublicKey("D4tPY74D12NQonvfRWZuESRfnDYjDVeKc6kUME555gzP"),
+    lamports,
+  });
 
   const instructions = [transferInstruction];
 
